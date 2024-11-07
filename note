@@ -1,0 +1,27 @@
+# Types simples
+age: int = 25
+nom: str = "Pierre"
+taille: float = 1.75
+est_etudiant: bool = True
+
+# Pour les listes
+from typing import List, Dict, Tuple, Optional
+
+# Liste typée
+nombres: List[int] = [1, 2, 3, 4]
+
+# Dictionnaire typé
+utilisateur: Dict[str, str] = {
+    "nom": "Pierre",
+    "email": "pierre@example.com"
+}
+
+# Tuple typé
+coordonnees: Tuple[float, float] = (48.8566, 2.3522)
+
+# Variable pouvant être None
+age_optional: Optional[int] = None
+
+# Fonction typée
+def calculer_age(annee_naissance: int) -> int:
+    return 2024 - annee_naissance
