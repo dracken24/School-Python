@@ -6,7 +6,7 @@ class MyButton:
     # Constructor
     def __init__(self, x: float, y: float, width: float, height: float,
                 bgColor: Color = GRAY, clickColor: Color = WHITE, hoverColor: Color = LIGHTGRAY,
-                    text: str = "", font: Font = GetFontDefault()):
+                    text: str = "", font: Font = GetFontDefault()) -> str:
     #{
         self.rect = Rectangle(x, y, width, height)
         self.bgColor = bgColor;
@@ -22,7 +22,7 @@ class MyButton:
             self.font = font
             
         if self.font.baseSize == 0:
-            self.font.baseSize = 20
+            self.font.baseSize = 36
     #}
 
     # Member Functions
@@ -67,6 +67,7 @@ class MyButton:
                     #{
                         print("Clicked on: ", self.text);
                         self.is_clicked = True;
+                        return self.text;
                     #}
                 #}
 

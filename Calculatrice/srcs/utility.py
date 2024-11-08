@@ -17,16 +17,22 @@ def init_font():
         # Essayer de charger la police personnalisée
         custom_font = LoadFont("../assets/HighlandGothicFLF.ttf".encode('utf-8'))
         if custom_font and custom_font.texture.id > 0:
+        #{
             font = custom_font
             print("Police personnalisée chargée avec succès")
+        #}
         else:
+        #{
             # Si échec, utiliser la police par défaut
             font = GetFontDefault()
             print("Utilisation de la police par défaut")
+        #}
         
         # Définir une taille de base si elle est à 0
         if font.baseSize == 0:
-            font.baseSize = 20
+        #{
+            font.baseSize = 36
+        #}
             
         print(f"Font loaded: {font.texture.id > 0}")
         print(f"Font base size: {font.baseSize}")
@@ -36,13 +42,12 @@ def init_font():
         print(f"Erreur lors du chargement de la police: {e}")
         print("Utilisation de la police par défaut")
         font = GetFontDefault()
-        font.baseSize = 20
+        font.baseSize = 36
     #}
 #}
 
 affichage: MyButton = MyButton(15, 15, WINDOW_WIDTH - 30, 50);
 affichage.set_bg_color(GRAY);
-affichage.set_text("45.667");
 
 ############################# init buttons #############################
 # Operation Buttons
@@ -58,38 +63,81 @@ sevenButton: MyButton = MyButton(15 + 50 + 40, affichage.rect.height + (50 + 10)
 
 twoButton: MyButton = MyButton(15 + (50 + 25) * 2, affichage.rect.height + (50 + 10), 50, 50, GRAY, LIME, FONT_COLOR, "2", font);
 fiveButton: MyButton = MyButton(15 + (50 + 25) * 2, affichage.rect.height + (50 + 10) * 2, 50, 50, GRAY, LIME, FONT_COLOR, "5", font);
-heighButton: MyButton = MyButton(15 + (50 + 25) * 2, affichage.rect.height + (50 + 10) * 3, 50, 50, GRAY, LIME, FONT_COLOR, "8", font);
+heighButton: MyButton = MyButton(15 + (50 + 25) * 2, affichage.rect.height + (50 + 10) * 3, 50, 50, GRAY, LIME, FONT_COLOR, "88", font);
 zeroButton: MyButton = MyButton(15 + (50 + 25) * 2, affichage.rect.height + (50 + 10) * 4, 50, 50, GRAY, LIME, FONT_COLOR, "0", font);
 
 threeButton: MyButton = MyButton(15 + (50 + 20) * 3, affichage.rect.height + (50 + 10), 50, 50, GRAY, LIME, FONT_COLOR, "3", font);
 sixButton: MyButton = MyButton(15 + (50 + 20) * 3, affichage.rect.height + (50 + 10) * 2, 50, 50, GRAY, LIME, FONT_COLOR, "6", font);
 nineButton: MyButton = MyButton(15 + (50 + 20) * 3, affichage.rect.height + (50 + 10) * 3, 50, 50, GRAY, LIME, FONT_COLOR, "9", font);
 
+dotButton: MyButton = MyButton(15 + (50 + 20) * 3, affichage.rect.height + (50 + 10) * 4, 50, 50, GRAY, LIME, FONT_COLOR, ".", font);
+
 ########################################################################
 
-def draw_all_buttons():
+def draw_all_buttons() -> str:
 # {
     # Writing space
-    # DrawRectangleRec(affichage.rect, affichage.bgColor);
-    affichage.draw_button(36, 1, 4, BLUE, True);
+    returnText: str = "";
+    text: str = affichage.draw_button(36, 1, 4, BLUE, True);
+    if text and len(text) > 0:
+        returnText = text;
 
     # Draw signs buttons */+-
-    addiButton.draw_button(36, 1, 4, BLUE);
-    subsButton.draw_button(36, 1, 4, BLUE);
-    multiButton.draw_button(36, 1, 4, BLUE);
-    diviButton.draw_button(36, 1, 4, BLUE);
+    text = addiButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = subsButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = multiButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = diviButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
 
     # Draw Numbers Buttons
-    oneButton.draw_button(36, 1, 4, BLUE);
-    fourButton.draw_button(36, 1, 4, BLUE);
-    sevenButton.draw_button(36, 1, 4, BLUE);
+    text = oneButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = fourButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = sevenButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
 
-    twoButton.draw_button(36, 1, 4, BLUE);
-    fiveButton.draw_button(36, 1, 4, BLUE);
-    heighButton.draw_button(36, 1, 4, BLUE);
-    zeroButton.draw_button(36, 1, 4, BLUE);
+    text = twoButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = fiveButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = heighButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = zeroButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
 
-    threeButton.draw_button(36, 1, 4, BLUE);
-    sixButton.draw_button(36, 1, 4, BLUE);
-    nineButton.draw_button(36, 1, 4, BLUE);
+    text = threeButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = sixButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+    text = nineButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+
+    text = dotButton.draw_button(36, 1, 4, BLUE);
+    if text and len(text) > 0:
+        returnText = text;
+
+    return returnText;
+# }
+
+def change_affich_text(text: str):
+# {
+    affichage.text = text;
 # }
