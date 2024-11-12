@@ -29,14 +29,14 @@ while (not WindowShouldClose()):    # Detect window close
     ClearBackground(LIGHTGRAY);     # Clear screen with white color
 
 
-    # # Draw signs buttons */+-
+    # # Draw signs buttons */+- 1, 2, 3....
     tmpText: str = draw_all_buttons();
 
     if tmpText == "ENTER":
     # {
         if calculation(textAffich):
         # {
-            textAffich = "0.00";
+            # textAffich = "0.00";
             firstNbrCt = True;
             lastTextAffich = "";
         # }
@@ -45,8 +45,8 @@ while (not WindowShouldClose()):    # Detect window close
             textAffich = "ERROR";
             firstNbrCt = True;
             lastTextAffich = "";
+            change_affich_text(textAffich);
         # }
-        change_affich_text(textAffich);
         continue
     # }
     
@@ -55,7 +55,7 @@ while (not WindowShouldClose()):    # Detect window close
     # {
         if firstNbrCt == True:
         # {
-            print("Len: ", len(textAffich));
+            # print("Len: ", len(textAffich));
             if tmpText == '.':
             # {
                 if firstNbrCt == True:
@@ -79,7 +79,7 @@ while (not WindowShouldClose()):    # Detect window close
             # Check for double sign
             if tmpText and check_for_double(textAffich, tmpText) == True:
             # {
-                print("DOUBLE");
+                # print("DOUBLE");
                 continue;
             # }
             textAffich += tmpText;

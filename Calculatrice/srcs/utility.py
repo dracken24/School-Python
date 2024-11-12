@@ -14,21 +14,21 @@ def init_font():
     global font;
     try:
     #{
-        # Essayer de charger la police personnalisée
+        # Try load a custom font
         custom_font = LoadFont("../assets/HighlandGothicFLF.ttf".encode('utf-8'));
         if custom_font and custom_font.texture.id > 0:
         #{
             font = custom_font;
-            print("Police personnalisée chargée avec succès");
+            print("Font charged");
         #}
         else:
         #{
-            # Si échec, utiliser la police par défaut
+            # if error load font, use default font
             font = GetFontDefault();
-            print("Utilisation de la police par défaut");
+            print("Use défaut font");
         #}
         
-        # Définir une taille de base si elle est à 0
+        # Define size if is font 0
         if font.baseSize == 0:
         #{
             font.baseSize = 32;
@@ -39,8 +39,8 @@ def init_font():
     #}
     except Exception as e:
     #{
-        print(f"Erreur lors du chargement de la police: {e}");
-        print("Utilisation de la police par défaut");
+        print(f"Error when loading font: {e}");
+        print("Use défaut font");
         font = GetFontDefault();
         font.baseSize = 32;
     #}
@@ -50,6 +50,7 @@ affichage: MyButton = MyButton(15, 15, WINDOW_WIDTH - 30, 50);
 affichage.set_bg_color(GRAY);
 
 ############################# init buttons #############################
+
 # Operation Buttons
 addiButton: MyButton = MyButton(15, affichage.rect.height + (50 + 10), 50, 50, GRAY, LIME, FONT_COLOR, "+", font);
 subsButton: MyButton = MyButton(15, affichage.rect.height + (50 + 10) * 2, 50, 50, GRAY, LIME, FONT_COLOR, "-", font);
@@ -169,5 +170,18 @@ def check_for_double(textAffich: str, cmd: str) -> bool:
 
 def calculation(textAffich: str) -> bool:
 # {
-    return True;
+    # print("Execute: ", textAffich);
+    try:
+    # {
+        # execute
+        result = eval(textAffich);
+
+        change_affich_text(str(result));
+        return True;
+    # }
+    except Exception as e:
+    # {
+        print(f"Error: {e}");
+        return False;
+    # }
 # }
