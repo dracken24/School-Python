@@ -22,7 +22,7 @@ class MyButton:
             self.font = font
             
         if self.font.baseSize == 0:
-            self.font.baseSize = 36
+            self.font.baseSize = 32
     #}
 
     # Member Functions

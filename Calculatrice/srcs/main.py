@@ -1,6 +1,7 @@
 from raylib import *
 from pyray import Rectangle
 from utility import draw_all_buttons, init_font, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, change_affich_text
+from utility import check_for_double, calculation
 
 # void  main(int argc, char **argv)
 #{
@@ -11,7 +12,11 @@ SetTargetFPS(60);  # FPS to 60
 
 init_font();
 
-textAffich : str = "";
+textAffich: str = "0.00";
+lastCharAffich: str = "";
+firstNbrCt: bool = True;
+
+change_affich_text(textAffich);
 
 ########################################################################
 
@@ -26,22 +31,61 @@ while (not WindowShouldClose()):    # Detect window close
 
     # # Draw signs buttons */+-
     tmpText: str = draw_all_buttons();
+
+    if tmpText == "ENTER":
+    # {
+        if calculation(textAffich):
+        # {
+            textAffich = "0.00";
+            firstNbrCt = True;
+            lastTextAffich = "";
+        # }
+        else:
+        # {
+            textAffich = "ERROR";
+            firstNbrCt = True;
+            lastTextAffich = "";
+        # }
+        change_affich_text(textAffich);
+        continue
+    # }
     
+    # If user enter . for first char
     if tmpText and len(tmpText) > 0:
     # {
-        print("Len: ", len(textAffich));
-        if len(textAffich) <= 0:
+        if firstNbrCt == True:
         # {
+            print("Len: ", len(textAffich));
             if tmpText == '.':
             # {
+                if firstNbrCt == True:
+                # {
+                    firstNbrCt = False;
+                    textAffich = "";
+                # }
                 textAffich += '0';
             # }
         # }
-        textAffich += tmpText;
-    # }
-    if textAffich and len(textAffich) < 12:
-    # {
-        change_affich_text(textAffich);
+        if len(textAffich) < 12:
+        # {
+            if len(textAffich) >= 0:
+            # {
+                if firstNbrCt == True and len(tmpText) > 0:
+                # {
+                    firstNbrCt = False;
+                    textAffich = "";
+                # }
+            # }
+            # Check for double sign
+            if tmpText and check_for_double(textAffich, tmpText) == True:
+            # {
+                print("DOUBLE");
+                continue;
+            # }
+            textAffich += tmpText;
+            change_affich_text(textAffich);
+            lastCharAffich = tmpText;
+        # }
     # }
 
     # Draw Border
