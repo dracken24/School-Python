@@ -1,7 +1,7 @@
 from raylib import *
 from pyray import Rectangle
 from utility import draw_all_buttons, init_font, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, change_affich_text
-from utility import check_for_double, calculation
+from utility import calculation
 
 # void  main(int argc, char **argv)
 #{
@@ -27,7 +27,6 @@ while (not WindowShouldClose()):    # Detect window close
     BeginDrawing();
 
     ClearBackground(LIGHTGRAY);     # Clear screen with white color
-
 
     # # Draw signs buttons */+- 1, 2, 3....
     tmpText: str = draw_all_buttons();
@@ -75,12 +74,6 @@ while (not WindowShouldClose()):    # Detect window close
                     firstNbrCt = False;
                     textAffich = "";
                 # }
-            # }
-            # Check for double sign
-            if tmpText and check_for_double(textAffich, tmpText) == True:
-            # {
-                # print("DOUBLE");
-                continue;
             # }
             textAffich += tmpText;
             change_affich_text(textAffich);

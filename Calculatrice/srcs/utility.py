@@ -4,10 +4,10 @@ from button import MyButton
 
 WINDOW_WIDTH: int = 293;
 WINDOW_HEIGHT: int = 440;
-WINDOW_TITLE: int = "Calculatator";
+WINDOW_TITLE: str = "Calculatator";
 FONT_COLOR = DARKGRAY;
 
-font: Font = GetFontDefault();
+font = GetFontDefault();
 
 def init_font():
 # {
@@ -149,25 +149,6 @@ def change_affich_text(text: str):
     affichage.text = text;
 # }
 
-def check_for_double(textAffich: str, cmd: str) -> bool:
-# {
-    print("In double: ", len(textAffich))
-    if len(textAffich) == 0 and (cmd[0] == '+' or cmd[0] == '-' or cmd[0] == '*' or cmd[0] == '/'):
-    # {
-        return True;
-    # } 
-    for charr in textAffich:
-    # {
-        if charr == '+' or charr == '-' or charr == '*' or charr == '/':
-        # {
-            if cmd[0] == '+' or cmd[0] == '-' or cmd[0] == '*' or cmd[0] == '/':
-                return True;
-        # }
-    # }
-
-    return False;
-# }
-
 def calculation(textAffich: str) -> bool:
 # {
     # print("Execute: ", textAffich);
@@ -179,9 +160,9 @@ def calculation(textAffich: str) -> bool:
         change_affich_text(str(result));
         return True;
     # }
-    except Exception as e:
+    except Exception as exeption:
     # {
-        print(f"Error: {e}");
+        print(f"Error: {exeption}");
         return False;
     # }
 # }

@@ -1,12 +1,12 @@
 from raylib import *
 from pyray import  Rectangle, Vector2, Color, Font
 
-class MyButton:
+class MyButton: 
 #{
     # Constructor
     def __init__(self, x: float, y: float, width: float, height: float,
-                bgColor: Color = GRAY, clickColor: Color = WHITE, hoverColor: Color = LIGHTGRAY,
-                    text: str = "", font: Font = GetFontDefault()) -> str:
+                bgColor = GRAY, clickColor = WHITE, hoverColor = LIGHTGRAY,
+                    text: str = "", font = GetFontDefault()) -> str:
     #{
         self.rect = Rectangle(x, y, width, height)
         self.bgColor = bgColor;
@@ -28,7 +28,7 @@ class MyButton:
     # Member Functions
 
     def draw_button(self, font_size: int = 0, spacing: int = 0,
-                border_thick: int = 0, border_color: Color = WHITE, skip_update: bool = False):
+                border_thick: int = 0, border_color = WHITE, skip_update: bool = False):
     #{
         text_pos = Vector2(self.rect.x + self.rect.width / 2, 
                         self.rect.y + self.rect.height / 2);
@@ -127,7 +127,7 @@ class MyButton:
                                 # SET
 ########################################################################
 
-    def set_bg_color(self, color: Color):
+    def set_bg_color(self, color):
     #{
         self.bgColor = color;
     #}
