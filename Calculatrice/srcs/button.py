@@ -53,7 +53,7 @@ class MyButton:
                 if hasattr(self, 'texture_click') and self.texture_click.id > 0:
                 #{
                     DrawTextureEx(self.texture_click, Vector2(self.rect.x, self.rect.y),
-                                  0, self.scale, WHITE);
+                        0, self.scale, WHITE);
                 #}
                 else:
                 #{
@@ -100,7 +100,7 @@ class MyButton:
             if hasattr(self, 'texture') and self.texture.id > 0:
             #{
                 DrawTextureEx(self.texture, Vector2(self.rect.x, self.rect.y),
-                              0, self.scale, WHITE);
+                    0, self.scale, WHITE);
             #}
             else:
             #{

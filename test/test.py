@@ -1,4 +1,4 @@
-# Multi polymorphisme
+# ********************** Multi polymorphisme ********************** #
 
 class classe_two:
 # {
@@ -26,30 +26,28 @@ cla_one.function_two()
 cla_one.function_tree()
 cla_one.function_Banane()
 
-
-
 # ********************** Fonction Template ********************** #
-# from typing import TypeVar, Generic
+from typing import TypeVar, Generic
 
-# T = TypeVar('T')
+T = TypeVar('T')
 
-# class Container(Generic[T]):
-#     def __init__(self, item: T):
-#         self.item = item
+class Container(Generic[T]):
+    def __init__(self, item: T):
+        self.item = item
         
-#     def get_item(self) -> T:
-#         return self.item
+    def get_item(self) -> T:
+        return self.item
 
 
 
 # ********************** Abstract class ********************** #
-# from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod
 
-# class FormeAbstraite(ABC):
-#     @abstractmethod
-#     def calculer_aire(self):
-#         pass
+class FormeAbstraite(ABC):
+    @abstractmethod
+    def calculer_aire(self):
+        pass
         
-#     @abstractmethod
-#     def calculer_perimetre(self):
-#         pass
+    @abstractmethod
+    def calculer_perimetre(self):
+        pass
