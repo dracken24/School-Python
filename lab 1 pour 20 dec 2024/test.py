@@ -2,7 +2,7 @@
 from colorama import init, Fore
 init(strip=False, autoreset=True)
 
-# retourne les infos de profil du pere noel
+# retourne les infos de profil du pere noel.
 def creer_profil_pere_noel():
     name: str = ""
     first_name: str = ""
