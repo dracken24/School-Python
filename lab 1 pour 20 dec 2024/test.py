@@ -1,8 +1,9 @@
-# retourne les infos de profil du pere noel
 from colorama import init, Fore
 init(strip=False, autoreset=True)
 
-# retourne les infos de profil du pere noel.
+pere_noel: tuple[str, str, str] = ()
+
+# retourne les infos de profil du pere noel
 def creer_profil_pere_noel():
     name: str = ""
     first_name: str = ""
@@ -186,11 +187,58 @@ def maj_inventaire_cadeau(gift: str) -> bool:
             return True
     return False
 
-def attribuer_cadeaux():
-    print("")
+rapport_enfant: dict = {}
+
+def maj_rapport_enfant(child_name: str, gift: str, delivery_reason: str, delivery_status: bool):
+    if child_name in rapport_enfant:
+        rapport_enfant[child_name, gift, delivery_reason, delivery_status] += 1
+    else:
+        rapport_enfant[child_name, gift, delivery_reason, delivery_status] = 1
+
+# Verifications et attribution d'un cadeau a un enfant
+def attribuer_cadeaux(child_name: str, gift: str) -> bool:
+    
+    # Verifier si l'enfant a ete sage
+    if liste_enfants[child][2] == False:
+        print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child][1]} - Raison : Enfant non sage.")
+        maj_rapport_enfant(child_name, gift, "Emplacement diff ́erent", False)
+        return False
+    
+    # Verifier l'emplacement de l'enfant et du pere noel
+    for child in liste_enfants:
+        if child == child_name:
+            if liste_enfants[child][1] == pere_noel[2]:
+                continue
+            else:
+                print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child][1]} - Raison : Emplacement different.")
+                maj_rapport_enfant(child_name, gift, "Emplacement different", False)
+                return False
+
+    # Verifier la disponibilite du cadeau
+    if maj_inventaire_cadeau(gift) == True:
+        print(Fore.GREEN + f"{child_name} recevra : {gift}")
+        maj_rapport_enfant(child_name, gift, "Cadeau Voulue", True)
+        return True
+    else:
+        print(Fore.RED + f"{child_name} recevra : Cadeau générique (car le cadeau souhaité n'est pas disponible).")
+        maj_rapport_enfant(child_name, gift, "Cadeau générique", False)
+        return False
 
 def generer_rapport():
-    print("")
+    print(Fore.BLUE + "************** Rapport des Cadeaux Livrés **************")
+    for child, gift in rapport_enfant:
+        if rapport_enfant[child, gift, delivery_reason, delivery_status] == True:
+            print(Fore.GREEN + f"{child} recevra : {gift}")
+        # else:
+        #     print(Fore.RED + f"{child} recevra : {gift}")
+        print("******************* Livraisons Impossibles ******************")
+        for child, gift, delivery_reason, delivery_status in rapport_enfant:
+            if delivery_status == False:
+                if delivery_reason == "Emplacement different":
+                    print(Fore.RED + f"{child} - Raison : Emplacement different")
+                elif delivery_reason == "Enfant non sage":
+                    print(Fore.RED + f"{child} - Raison : Enfant non sage")
+    print(Fore.BLUE + "*************************************************************")
 
 def print_profil(profil: tuple[str, str, str]):
     [name, first_name, city] = profil
@@ -201,9 +249,18 @@ def print_profil(profil: tuple[str, str, str]):
     print(Fore.GREEN + "Ville : ", city)
     print(Fore.BLUE + "*************************************************************")
 
+def print_prompt():
+    print(Fore.BLUE + "******************* Menu Principal *******************")
+    print(Fore.GREEN + "1. Afficher la liste des enfants")
+    print(Fore.GREEN + "2. Ajouter un enfant")
+    print(Fore.GREEN + "3. Modifier le statut de sagesse d’un enfant")
+    print(Fore.GREEN + "4. Attribuer les cadeaux")
+    print(Fore.GREEN + "5. Quitter (Yes/No) ?")
+    print(Fore.BLUE + "******************************************************")
+
 def main():
     # ### Profil ###
-    # test = creer_profil_pere_noel()
+    pere_noel = creer_profil_pere_noel()
     # print_profil(test)
     # print(f"Bienvenue, Pere Noel {test[1]} {test[0]} situe a {test[2]}")
     ################################################
@@ -221,9 +278,41 @@ def main():
     ################################################
 
     # ### inventory gift ###
-    print_gift_list()
-    maj_inventaire_cadeau("Lego")
-    print_gift_list()
+    # print_gift_list()
+    # maj_inventaire_cadeau("Lego")
+    # print_gift_list()
     ################################################
+
+    
+
+
+    # Remplir le code ici 
+    while True:
+        print_prompt()
+        choice = input("Veuillez entrer votre choix: ")
+        if choice == "1":
+            afficher_liste_enfants()
+        elif choice == "2":
+            ajouter_enfant()
+        elif choice == "3":
+            modifier_sagesse_enfant()
+        elif choice == "4":
+            attribuer_cadeaux()
+        elif choice == "5" or choice == "Yes":
+            break
+    '''
+    
+    * Creez l'inventaire des cadeaux (tuples) -
+    * Creez la liste des enfants (tuples) - # respectez le format du tuple (voir l'enonce)
+    
+    avec le menu interactif : 
+    
+    Menu Principal
+        1. Afficher la liste des enfants
+        2. Ajouter un enfant
+        3. Modifier le statut de sagesse d’un enfant
+        4. Attribuer les cadeaux
+        5. Quitter (Yes/No) ?
+    '''
 
 main()
