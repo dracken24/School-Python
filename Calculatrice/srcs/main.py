@@ -1,7 +1,6 @@
 from raylib import *
 from pyray import Rectangle
-from utility import draw_all_buttons, init_font, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, change_affich_text
-from utility import calculation
+from utility import *
 
 # void  main(int argc, char **argv)
 #{

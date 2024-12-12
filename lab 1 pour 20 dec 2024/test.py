@@ -9,23 +9,23 @@ def creer_profil_pere_noel():
     first_name: str = ""
     city: str = ""
 
-    name = input("Veuillez entrer le nom du pere noel: ")
+    name = input(Fore.YELLOW + "Veuillez entrer le nom du pere noel: ")
     while True:
         # Verification du nom
         if (len(name) <= 0):
             print(Fore.RED + "ERROR, Champ vide, nom requis.")
-            name = input("Veuillez entrer le nom du pere noel: ")
+            name = input(Fore.YELLOW + "Veuillez entrer le nom du pere noel: ")
             continue
 
         # Verification du prenom
         if (len(first_name) <= 0):
-            first_name = input("Veuillez entrer le prenom du pere noel: ")
+            first_name = input(Fore.YELLOW + "Veuillez entrer le prenom du pere noel: ")
         if (len(first_name) <= 0):
             print(Fore.RED + "ERROR, Champ vide, prenom requis.")
             continue
         
         # Verification de la ville
-        city = input("Veuillez entrer la ville du pere noel: ")
+        city = input(Fore.YELLOW + "Veuillez entrer la ville du pere noel: ")
         if (len(city) <= 0):
             print(Fore.RED + "ERROR, Champ vide, ville requise.")
             continue
@@ -199,20 +199,16 @@ def maj_rapport_enfant(child_name: str, gift: str, delivery_reason: str, deliver
 def attribuer_cadeaux(child_name: str, gift: str) -> bool:
     
     # Verifier si l'enfant a ete sage
-    if liste_enfants[child][2] == False:
-        print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child][1]} - Raison : Enfant non sage.")
-        maj_rapport_enfant(child_name, gift, "Emplacement diff ́erent", False)
+    if liste_enfants[child_name][2] == False:
+        print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child_name][1]} - Raison : Enfant non sage.")
+        maj_rapport_enfant(child_name, gift, "Enfant non sage", False)
         return False
     
     # Verifier l'emplacement de l'enfant et du pere noel
-    for child in liste_enfants:
-        if child == child_name:
-            if liste_enfants[child][1] == pere_noel[2]:
-                continue
-            else:
-                print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child][1]} - Raison : Emplacement different.")
-                maj_rapport_enfant(child_name, gift, "Emplacement different", False)
-                return False
+    if liste_enfants[child_name][1] != pere_noel[2]:
+        print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child_name][1]} - Raison : Emplacement different.")
+        maj_rapport_enfant(child_name, gift, "Emplacement different", False)
+        return False
 
     # Verifier la disponibilite du cadeau
     if maj_inventaire_cadeau(gift) == True:
@@ -258,33 +254,21 @@ def print_prompt():
     print(Fore.GREEN + "5. Quitter (Yes/No) ?")
     print(Fore.BLUE + "******************************************************")
 
+def attribuer_cadeaux_menu():
+    afficher_liste_enfants()
+    print_gift_list()
+    
+    child_name = input(Fore.YELLOW + "Entrez le nom de l'enfant : ")
+    gift = input(Fore.YELLOW + "Entrez le cadeau à attribuer : ")
+    
+    if child_name in liste_enfants:
+        attribuer_cadeaux(child_name, gift)
+    else:
+        print(Fore.RED + f"L'enfant {child_name} n'existe pas dans la liste.")
+
 def main():
     # ### Profil ###
     pere_noel = creer_profil_pere_noel()
-    # print_profil(test)
-    # print(f"Bienvenue, Pere Noel {test[1]} {test[0]} situe a {test[2]}")
-    ################################################
-
-    # ### Enfants ###
-    # ajouter_enfant()
-    # afficher_liste_enfants()
-    # ajouter_enfant()
-    # afficher_liste_enfants()
-    # modifier_sagesse_enfant()
-    # ajouter_enfant()
-    # afficher_liste_enfants()
-    # ajouter_enfant()
-    # afficher_liste_enfants()
-    ################################################
-
-    # ### inventory gift ###
-    # print_gift_list()
-    # maj_inventaire_cadeau("Lego")
-    # print_gift_list()
-    ################################################
-
-    
-
 
     # Remplir le code ici 
     while True:
@@ -297,7 +281,7 @@ def main():
         elif choice == "3":
             modifier_sagesse_enfant()
         elif choice == "4":
-            attribuer_cadeaux()
+            attribuer_cadeaux_menu()
         elif choice == "5" or choice == "Yes":
             break
     '''
