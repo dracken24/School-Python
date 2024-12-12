@@ -4,7 +4,7 @@ init(strip=False, autoreset=True)
 pere_noel: tuple[str, str, str] = ()
 
 # retourne les infos de profil du pere noel
-def creer_profil_pere_noel():
+def creer_profil_pere_noel() -> tuple[str, str, str]:
     name: str = ""
     first_name: str = ""
     city: str = ""
@@ -106,7 +106,7 @@ def ajouter_enfant() -> bool:
     
     # Ajout de l'enfant au dictionnaire
     liste_enfants.update({name: (gift, city, sage)})
-    print(Fore.YELLOW + f"L'enfant nome {name}a ete ajoute avec succes !")
+    print(Fore.YELLOW + f"L'enfant nome {name} a ete ajoute avec succes !")
     return True
 
 # fonction pour changer la sagesse d'un enfant
@@ -196,7 +196,7 @@ def maj_rapport_enfant(child_name: str, gift: str, delivery_reason: str, deliver
         rapport_enfant[child_name, gift, delivery_reason, delivery_status] = 1
 
 # Verifications et attribution d'un cadeau a un enfant
-def attribuer_cadeaux(child_name: str, gift: str) -> bool:
+def attribuer_cadeaux(pere_noel: tuple[str, str, str], child_name: str, gift: str) -> bool:
     
     # Verifier si l'enfant a ete sage
     if liste_enfants[child_name][2] == False:
@@ -204,6 +204,8 @@ def attribuer_cadeaux(child_name: str, gift: str) -> bool:
         maj_rapport_enfant(child_name, gift, "Enfant non sage", False)
         return False
     
+    print("Gift: ", gift)
+
     # Verifier l'emplacement de l'enfant et du pere noel
     if liste_enfants[child_name][1] != pere_noel[2]:
         print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child_name][1]} - Raison : Emplacement different.")
@@ -254,18 +256,18 @@ def print_prompt():
     print(Fore.GREEN + "5. Quitter (Yes/No) ?")
     print(Fore.BLUE + "******************************************************")
 
-def attribuer_cadeaux_menu():
+def attribuer_cadeaux_menu(pere_noel: tuple[str, str, str]):
     afficher_liste_enfants()
     print_gift_list()
     
-    child_name = input(Fore.YELLOW + "Entrez le nom de l'enfant : ")
-    gift = input(Fore.YELLOW + "Entrez le cadeau à attribuer : ")
-    
-    if child_name in liste_enfants:
-        attribuer_cadeaux(child_name, gift)
-    else:
-        print(Fore.RED + f"L'enfant {child_name} n'existe pas dans la liste.")
+    # child_name = input(Fore.YELLOW + "Entrez le nom de l'enfant : ")
+    # gift = input(Fore.YELLOW + "Entrez le cadeau à attribuer : ")
 
+    for child_name, child_value in liste_enfants.items():
+        # if child_name in liste_enfants:
+        attribuer_cadeaux(pere_noel, child_name, child_value[0])
+
+# pere_noel: tuple[str, str, str] = ()
 def main():
     # ### Profil ###
     pere_noel = creer_profil_pere_noel()
@@ -281,7 +283,7 @@ def main():
         elif choice == "3":
             modifier_sagesse_enfant()
         elif choice == "4":
-            attribuer_cadeaux_menu()
+            attribuer_cadeaux_menu(pere_noel)
         elif choice == "5" or choice == "Yes":
             break
     '''
