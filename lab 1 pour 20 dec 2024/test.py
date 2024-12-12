@@ -38,7 +38,7 @@ liste_enfants: dict = {}
 
 # Function pour afficher les enfants present dans le dictionnaire
 def afficher_liste_enfants():
-    print(Fore.BLUE + "********************************* Liste des enfanst *********************************")
+    print(Fore.BLUE + "\n************************* Liste des enfanst ***********************")
 
     if len(liste_enfants) == 0:
         print(Fore.BLUE + "Aucun enfant dans la liste pour le moment.")
@@ -47,7 +47,7 @@ def afficher_liste_enfants():
             child_info = liste_enfants[child]
             print(Fore.GREEN + f"Nom: {child}, Cadeau souhaite: ́{child_info[0]}, Emplacement: {child_info[1]}, Sage: {child_info[2]}")
 
-    print(Fore.BLUE + "*************************************************************************************")
+    print(Fore.BLUE + "*******************************************************************")
 
 # Function pour ajouter un enfant dans la liste du pere noel
 def ajouter_enfant() -> bool:
@@ -123,6 +123,20 @@ def modifier_sagesse_enfant():
                 print(Fore.RED + "ERROR, Champ vide, nom requis.")
                 continue
             name_find = True
+        
+        # Verifier si l'enfant existe
+        child_exist: bool = False
+        for child in liste_enfants:
+            if child == name:
+                child_exist = True
+                new_status = liste_enfants[child][0], liste_enfants[child][1], sage
+                liste_enfants[child] = new_status # Changer le status pour un nouveau
+                break
+        
+        # Quitter la fonction si l'enfant n'existe pass
+        if child_exist == False:
+            print(Fore.RED + f"Aucun enfant nomme {name} n'a ete trouve dans la liste.")
+            return
 
         # Verification de la sagesse de l'enfant
         sage = input("Nouveau status. L'enfant a-t-il ete sage? [T] pour oui [F] pour non: ")
@@ -132,25 +146,14 @@ def modifier_sagesse_enfant():
         else:
             if sage[0] == 'T' or sage[0] == 't':
                 sage = True
+                print(Fore.YELLOW + f"Le statut de sagesse de {name} a ete mis a jour.")
                 break
             elif sage[0] == 'F' or sage[0] == 'f':
                 sage = False
+                print(Fore.YELLOW + f"Le statut de sagesse de {name} a ete mis a jour.")
                 break
             print(Fore.RED + "ERROR, entree invalide.")
-
-    # Verifier si l'enfant existe
-    child_exist: bool = False
-    for child in liste_enfants:
-        if child == name:
-            child_exist = True
-            new_status = liste_enfants[child][0], liste_enfants[child][1], sage
-            liste_enfants[child] = new_status # Changer le status pour un nouveau
-            break
-    
-    if child_exist == True:
-        print(Fore.YELLOW + f"Le statut de sagesse de {name} a ete mis a jour.")
-    else:
-        print(Fore.YELLOW + f"Aucun enfant nomme {name} n'a ete trouve dans la liste.")
+            
 
 # inventaire initiale
 inventory_gift: tuple = ("Poupee", "Vetements", "Lego", "Voiture telecommandee", "Livre",
@@ -158,7 +161,7 @@ inventory_gift: tuple = ("Poupee", "Vetements", "Lego", "Voiture telecommandee",
 
 # Function pour imprimer la liste des cadeaux disponibles restant
 def print_gift_list():
-    print(Fore.BLUE + "************ Liste des cadeaux disponible ************")
+    print(Fore.BLUE + "\n****************** Liste des cadeaux disponible ******************")
 
     if len(inventory_gift) == 0:
         print(Fore.RED + "Aucun Cadeaux n'est disponible.")
@@ -168,7 +171,7 @@ def print_gift_list():
             print(Fore.GREEN + f"Cadeau[{index}] : {g}")
             index += 1
 
-    print(Fore.BLUE + "******************************************************")
+    print(Fore.BLUE + "******************************************************************")
 
 def remove_gift_from_list(gift: str, inventory: tuple) -> tuple:
     new_list: list = list(inventory)
@@ -188,6 +191,7 @@ def maj_inventaire_cadeau(gift: str) -> bool:
     return False
 
 rapport_enfant: dict = {}
+
 
 def maj_rapport_enfant(child_name: str, gift: str, delivery_reason: str, delivery_status: bool):
     if child_name in rapport_enfant:
@@ -223,56 +227,53 @@ def attribuer_cadeaux(pere_noel: tuple[str, str, str], child_name: str, gift: st
         return False
 
 def generer_rapport():
-    print(Fore.BLUE + "************** Rapport des Cadeaux Livrés **************")
+    print(Fore.BLUE + "\n************** Rapport des Cadeaux Livrés **************")
     for child, gift in rapport_enfant:
         if rapport_enfant[child, gift, delivery_reason, delivery_status] == True:
             print(Fore.GREEN + f"{child} recevra : {gift}")
         # else:
         #     print(Fore.RED + f"{child} recevra : {gift}")
-        print("******************* Livraisons Impossibles ******************")
+        print("\n********************** Livraisons Impossibles *********************")
         for child, gift, delivery_reason, delivery_status in rapport_enfant:
             if delivery_status == False:
                 if delivery_reason == "Emplacement different":
                     print(Fore.RED + f"{child} - Raison : Emplacement different")
                 elif delivery_reason == "Enfant non sage":
                     print(Fore.RED + f"{child} - Raison : Enfant non sage")
-    print(Fore.BLUE + "*************************************************************")
+    print(Fore.BLUE + "*******************************************************************")
 
+# Afficher un profil enfant
 def print_profil(profil: tuple[str, str, str]):
     [name, first_name, city] = profil
 
-    print(Fore.BLUE + "************** Creation du profil du Pere Noel **************")
+    print(Fore.BLUE + "\n***************** Creation du profil du Pere Noel *****************")
     print(Fore.GREEN + "Nom   : ", name)
     print(Fore.GREEN + "Prenom: ", first_name)
     print(Fore.GREEN + "Ville : ", city)
-    print(Fore.BLUE + "*************************************************************")
+    print(Fore.BLUE + "*******************************************************************")
 
+# Afficher les choix utilisateur
 def print_prompt():
-    print(Fore.BLUE + "******************* Menu Principal *******************")
+    print(Fore.BLUE + "\n************************* Menu Principal **************************")
     print(Fore.GREEN + "1. Afficher la liste des enfants")
     print(Fore.GREEN + "2. Ajouter un enfant")
     print(Fore.GREEN + "3. Modifier le statut de sagesse d’un enfant")
     print(Fore.GREEN + "4. Attribuer les cadeaux")
     print(Fore.GREEN + "5. Quitter (Yes/No) ?")
-    print(Fore.BLUE + "******************************************************")
+    print(Fore.BLUE + "*******************************************************************")
 
 def attribuer_cadeaux_menu(pere_noel: tuple[str, str, str]):
     afficher_liste_enfants()
     print_gift_list()
-    
-    # child_name = input(Fore.YELLOW + "Entrez le nom de l'enfant : ")
-    # gift = input(Fore.YELLOW + "Entrez le cadeau à attribuer : ")
 
     for child_name, child_value in liste_enfants.items():
-        # if child_name in liste_enfants:
         attribuer_cadeaux(pere_noel, child_name, child_value[0])
 
-# pere_noel: tuple[str, str, str] = ()
 def main():
     # ### Profil ###
     pere_noel = creer_profil_pere_noel()
 
-    # Remplir le code ici 
+    # Boucle principale du programme
     while True:
         print_prompt()
         choice = input("Veuillez entrer votre choix: ")
@@ -286,19 +287,5 @@ def main():
             attribuer_cadeaux_menu(pere_noel)
         elif choice == "5" or choice == "Yes":
             break
-    '''
-    
-    * Creez l'inventaire des cadeaux (tuples) -
-    * Creez la liste des enfants (tuples) - # respectez le format du tuple (voir l'enonce)
-    
-    avec le menu interactif : 
-    
-    Menu Principal
-        1. Afficher la liste des enfants
-        2. Ajouter un enfant
-        3. Modifier le statut de sagesse d’un enfant
-        4. Attribuer les cadeaux
-        5. Quitter (Yes/No) ?
-    '''
 
 main()
