@@ -318,7 +318,7 @@ def attribuer_cadeaux_menu(pere_noel: tuple[str, str, str]):
 
     for child_name, child_value in liste_enfants.items():
         attribuer_cadeaux(pere_noel, child_name, child_value[0])
-
+ 
 def main():
     # ### Profil ###
     pere_noel = creer_profil_pere_noel()
