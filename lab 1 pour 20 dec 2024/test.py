@@ -9,29 +9,33 @@ def creer_profil_pere_noel() -> tuple[str, str, str]:
     first_name: str = ""
     city: str = ""
 
-    name = input(Fore.YELLOW + "Veuillez entrer le nom du pere noel: ")
+    print(Fore.BLUE + "\n****************** Creation du profil du Pere Noel ****************")
+
+    name = input(Fore.YELLOW + "Entrez votre nom: " + Fore.RESET)
     while True:
         # Verification du nom
         if (len(name) <= 0):
             print(Fore.RED + "ERROR, Champ vide, nom requis.")
-            name = input(Fore.YELLOW + "Veuillez entrer le nom du pere noel: ")
+            name = input(Fore.YELLOW + "Entrez votre nom: " + Fore.RESET)
             continue
 
         # Verification du prenom
         if (len(first_name) <= 0):
-            first_name = input(Fore.YELLOW + "Veuillez entrer le prenom du pere noel: ")
+            first_name = input(Fore.YELLOW + "Entrez votre prenom: " + Fore.RESET)
         if (len(first_name) <= 0):
             print(Fore.RED + "ERROR, Champ vide, prenom requis.")
             continue
         
         # Verification de la ville
-        city = input(Fore.YELLOW + "Veuillez entrer la ville du pere noel: ")
+        city = input(Fore.YELLOW + "Entrez votre emplacement actuel : " + Fore.RESET)
         if (len(city) <= 0):
             print(Fore.RED + "ERROR, Champ vide, ville requise.")
             continue
 
         # retourne les 3 valeurs si les 3 champs sont remplis
         else:
+            print(Fore.GREEN + f"\nBienvenue, Pere Noel {first_name} {name} situe a {city} !\n")
+            print(Fore.BLUE + "*******************************************************************")
             return name, first_name, city
         
 liste_enfants: dict = {}
@@ -41,11 +45,14 @@ def afficher_liste_enfants():
     print(Fore.BLUE + "\n************************* Liste des enfanst ***********************")
 
     if len(liste_enfants) == 0:
-        print(Fore.BLUE + "Aucun enfant dans la liste pour le moment.")
+        print(Fore.YELLOW + "Aucun enfant dans la liste pour le moment.")
     else: #Key child
+        i: int = 1
         for child in liste_enfants:
             child_info = liste_enfants[child]
-            print(Fore.GREEN + f"Nom: {child}, Cadeau souhaite: ́{child_info[0]}, Emplacement: {child_info[1]}, Sage: {child_info[2]}")
+            print(Fore.GREEN + str(i) + ". Nom: " + Fore.YELLOW + child + Fore.GREEN +" Cadeau souhaite: " + Fore.YELLOW + child_info[0]
+                  + Fore.GREEN + " Emplacement: " + Fore.YELLOW + child_info[1] + Fore.GREEN + " Sage: " + Fore.YELLOW + str(child_info[2]))
+            i += 1
 
     print(Fore.BLUE + "*******************************************************************")
 
@@ -85,15 +92,15 @@ def ajouter_enfant() -> bool:
             city_find = True
 
         # Verification de la sagesse de l'enfant
-        sage = input("L'enfant a-t-il ete sage? [T] pour oui [F] pour non: ")
+        sage = input("L'enfant a-t-il ete sage? [T] pour true [F] pour false: ")
         if (len(sage) != 1):
             print(Fore.RED + "ERROR, entree invalide.")
             continue
         else:
-            if sage[0] == 'T' or sage[0] == 't':
+            if sage[0] == 'T' or sage[0] == 't' or sage == "true" or sage == "True":
                 sage = True
                 break
-            elif sage[0] == 'F' or sage[0] == 'f':
+            elif sage[0] == 'F' or sage[0] == 'f' or sage == "false" or sage == "False":
                 sage = False
                 break
             print(Fore.RED + "ERROR, entree invalide.")
@@ -106,8 +113,17 @@ def ajouter_enfant() -> bool:
     
     # Ajout de l'enfant au dictionnaire
     liste_enfants.update({name: (gift, city, sage)})
-    print(Fore.YELLOW + f"L'enfant nome {name} a ete ajoute avec succes !")
+    print(Fore.GREEN + f"\nNom de l’enfant: {Fore.YELLOW + name}")
+    print(Fore.GREEN + f"Cadeau souhaite: {Fore.YELLOW + gift}")
+    print(Fore.GREEN + f"Emplacement de l’enfant: {Fore.YELLOW + city}")
+    print(Fore.GREEN + f"L’enfant est-il sage ? (True/False): {Fore.YELLOW + str(sage)}")
+    print(Fore.GREEN + f"\nL'enfant nome {Fore.YELLOW + name + Fore.GREEN} a ete ajoute avec succes !")
     return True
+
+def print_new_status(name: str, sage: str):
+    print(Fore.GREEN + f"\nNom de l’enfant: {Fore.YELLOW + name}")
+    print(Fore.GREEN + f"Nouveau statut de sagesse (True/False): {Fore.YELLOW + str(sage)}")
+    print(Fore.GREEN + f"\nLe statut de sagesse de {Fore.YELLOW + name + Fore.GREEN} a ete mis a jour\n")
 
 # fonction pour changer la sagesse d'un enfant
 def modifier_sagesse_enfant():
@@ -118,7 +134,7 @@ def modifier_sagesse_enfant():
     while True:
         # Verification pour le nom de l'enfant
         if name_find == False:
-            name = input("Veuillez entrer le nom de l'enfant: ")
+            name = input("Nom de l'enfant: ")
             if (len(name) <= 0):
                 print(Fore.RED + "ERROR, Champ vide, nom requis.")
                 continue
@@ -129,31 +145,32 @@ def modifier_sagesse_enfant():
         for child in liste_enfants:
             if child == name:
                 child_exist = True
-                new_status = liste_enfants[child][0], liste_enfants[child][1], sage
-                liste_enfants[child] = new_status # Changer le status pour un nouveau
                 break
         
         # Quitter la fonction si l'enfant n'existe pass
         if child_exist == False:
-            print(Fore.RED + f"Aucun enfant nomme {name} n'a ete trouve dans la liste.")
+            print(Fore.RED + f"Aucun enfant nomme {Fore.YELLOW + name + Fore.RED} n'a ete trouve dans la liste.")
             return
 
         # Verification de la sagesse de l'enfant
-        sage = input("Nouveau status. L'enfant a-t-il ete sage? [T] pour oui [F] pour non: ")
+        sage = input("Nouveau statut de sagesse (True [T] / False [F]): ")
         if (len(sage) != 1):
             print(Fore.RED + "ERROR, entree invalide.")
             continue
         else:
-            if sage[0] == 'T' or sage[0] == 't':
+            if sage[0] == 'T' or sage[0] == 't' or sage == "true" or sage == "True":
                 sage = True
-                print(Fore.YELLOW + f"Le statut de sagesse de {name} a ete mis a jour.")
+                # Mise à jour du statut dans liste_enfants
+                liste_enfants[name] = (liste_enfants[name][0], liste_enfants[name][1], sage)
+                print_new_status(name, sage)
                 break
-            elif sage[0] == 'F' or sage[0] == 'f':
+            elif sage[0] == 'F' or sage[0] == 'f' or sage == "false" or sage == "False":
                 sage = False
-                print(Fore.YELLOW + f"Le statut de sagesse de {name} a ete mis a jour.")
+                # Mise à jour du statut dans liste_enfants
+                liste_enfants[name] = (liste_enfants[name][0], liste_enfants[name][1], sage)
+                print_new_status(name, sage)
                 break
             print(Fore.RED + "ERROR, entree invalide.")
-            
 
 # inventaire initiale
 inventory_gift: tuple = ("Poupee", "Vetements", "Lego", "Voiture telecommandee", "Livre",
@@ -183,7 +200,7 @@ def remove_gift_from_list(gift: str, inventory: tuple) -> tuple:
 
 # Supprime un cadeau de la liste disponible
 def maj_inventaire_cadeau(gift: str) -> bool:
-    global inventory_gift # le seule mot global. A eviter le plus possible
+    global inventory_gift # Le mot global est a eviter le plus possible
     for g in inventory_gift:
         if gift == g: # le supprimer si disponible
             inventory_gift = remove_gift_from_list(gift, inventory_gift)
@@ -191,7 +208,6 @@ def maj_inventaire_cadeau(gift: str) -> bool:
     return False
 
 rapport_enfant: dict = {}
-
 
 def maj_rapport_enfant(child_name: str, gift: str, delivery_reason: str, delivery_status: bool):
     if child_name in rapport_enfant:
@@ -201,30 +217,49 @@ def maj_rapport_enfant(child_name: str, gift: str, delivery_reason: str, deliver
 
 # Verifications et attribution d'un cadeau a un enfant
 def attribuer_cadeaux(pere_noel: tuple[str, str, str], child_name: str, gift: str) -> bool:
+    # Vérifier si l'enfant a déjà reçu un cadeau avec succès
+    for (existing_child, _, _, delivery_status) in rapport_enfant.keys():
+        if existing_child == child_name and delivery_status == True:
+            print(Fore.YELLOW + f"L'enfant {child_name} a déjà reçu un cadeau.")
+            return False
     
     # Verifier si l'enfant a ete sage
     if liste_enfants[child_name][2] == False:
         print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child_name][1]} - Raison : Enfant non sage.")
+        # Mettre à jour le rapport si une entrée existe déjà
+        for key in list(rapport_enfant.keys()):
+            if key[0] == child_name:
+                del rapport_enfant[key]
         maj_rapport_enfant(child_name, gift, "Enfant non sage", False)
         return False
     
-    print("Gift: ", gift)
-
     # Verifier l'emplacement de l'enfant et du pere noel
     if liste_enfants[child_name][1] != pere_noel[2]:
         print(Fore.RED + f"Impossible de livrer le cadeau {gift} a {child_name} situé a {liste_enfants[child_name][1]} - Raison : Emplacement different.")
+        # Mettre à jour le rapport si une entrée existe déjà
+        for key in list(rapport_enfant.keys()):
+            if key[0] == child_name:
+                del rapport_enfant[key]
         maj_rapport_enfant(child_name, gift, "Emplacement different", False)
         return False
 
     # Verifier la disponibilite du cadeau
     if maj_inventaire_cadeau(gift) == True:
         print(Fore.GREEN + f"{child_name} recevra : {gift}")
+        # Mettre à jour le rapport si une entrée existe déjà
+        for key in list(rapport_enfant.keys()):
+            if key[0] == child_name:
+                del rapport_enfant[key]
         maj_rapport_enfant(child_name, gift, "Cadeau Voulue", True)
         return True
     else:
-        print(Fore.RED + f"{child_name} recevra : Cadeau générique (car le cadeau souhaité n'est pas disponible).")
-        maj_rapport_enfant(child_name, gift, "Cadeau générique", False)
-        return False
+        print(Fore.YELLOW + f"{child_name} recevra : Cadeau générique (car le cadeau souhaité n'est pas disponible).")
+        # Mettre à jour le rapport si une entrée existe déjà
+        for key in list(rapport_enfant.keys()):
+            if key[0] == child_name:
+                del rapport_enfant[key]
+        maj_rapport_enfant(child_name, "Cadeau générique", "Cadeau non disponible", True)
+        return True
 
 def generer_rapport():
     print(Fore.BLUE + "\n************** Rapport des Cadeaux Livrés **************")
@@ -240,6 +275,20 @@ def generer_rapport():
                     print(Fore.RED + f"{child} - Raison : Emplacement different")
                 elif delivery_reason == "Enfant non sage":
                     print(Fore.RED + f"{child} - Raison : Enfant non sage")
+    print(Fore.BLUE + "*******************************************************************")
+
+def print_final_rapport():
+    print(Fore.YELLOW + "\n******************* Rapport des Cadeaux Livres ********************")
+    print(Fore.BLUE + "\n******************* Cadeaux livres avec succes ********************")
+    for (child, gift, delivery_reason, delivery_status) in rapport_enfant:
+        if delivery_status == True:
+            print(Fore.GREEN + f"{child} recevra : {gift}")
+
+    print(Fore.BLUE + "\n********************* Livraisons Impossibles **********************")
+    for (child, gift, delivery_reason, delivery_status) in rapport_enfant:
+        if delivery_status == False:
+            print(Fore.RED + f"{child} à {liste_enfants[child][1]} - Raison : {delivery_reason}")
+
     print(Fore.BLUE + "*******************************************************************")
 
 # Afficher un profil enfant
@@ -263,6 +312,7 @@ def print_prompt():
     print(Fore.BLUE + "*******************************************************************")
 
 def attribuer_cadeaux_menu(pere_noel: tuple[str, str, str]):
+    # Supprimer la réinitialisation du rapport ici
     afficher_liste_enfants()
     print_gift_list()
 
@@ -285,7 +335,8 @@ def main():
             modifier_sagesse_enfant()
         elif choice == "4":
             attribuer_cadeaux_menu(pere_noel)
-        elif choice == "5" or choice == "Yes":
+            print_final_rapport()
+        elif choice == "5" or choice == "Yes" or choice == "yes":
             break
 
 main()
