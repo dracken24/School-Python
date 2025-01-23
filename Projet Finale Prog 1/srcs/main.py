@@ -1,5 +1,4 @@
 import raylib
-# from pyraylib import *
 
 WINDOW_WIDTH: int = 400;
 WINDOW_HEIGHT: int = 640;
@@ -8,7 +7,8 @@ WINDOW_TITLE: str = "IntelliSerre";
 RL = raylib
 FONT_COLOR = RL.DARKGRAY;
 
-def main():
+# init principal variables for the program
+def init():
     # Window init
     RL.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE.encode('utf-8'))
 
@@ -18,6 +18,10 @@ def main():
     RL.SetWindowMaxSize(1920, 1080)
 
     RL.SetTargetFPS(60);  # FPS to 60
+
+def main():
+    
+    init()
 
     while (not RL.WindowShouldClose()):    # Detect window close
         # Drawing begin

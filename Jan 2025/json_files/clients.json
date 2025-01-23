@@ -1,0 +1,34 @@
+{
+    "client": [
+        {
+            "Name": "Steven",
+            "email": "stew@gmail.com",
+            "phone": "418-444-3344"
+        },
+        {
+            "Name": "Barnet",
+            "email": "barnet@gmail.com",
+            "phone": "418-444-3344"
+        },
+        {
+            "Name": "Annie",
+            "email": "annie@outlook.com",
+            "phone": "418-444-3344"
+        },
+        {
+            "Name": "Bobby",
+            "email": "bibbobby@yo.fr",
+            "phone": "333-445-6667"
+        },
+        {
+            "Name": "bob",
+            "email": "bob@bob.bob",
+            "phone": "333-333-3333"
+        },
+        {
+            "Name": "alain",
+            "email": "ali@aaalll.from",
+            "phone": "555-444-3333"
+        }
+    ]
+}
