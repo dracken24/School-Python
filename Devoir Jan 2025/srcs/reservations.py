@@ -1,27 +1,20 @@
-# 3. Module reservations.py
-
-# Gère les réservations : création, affichage, annulation.
-
-# Fonctionnalités :
-
-# - Créer une réservation pour un client et une destination.
-# - Annuler une réservation.
-# - Afficher toutes les réservations.
-# - Sauvegarder et charger les réservations depuis un fichier JSON.
-
 from clients import Clients
 from destinations import Destinations
 
 import json
+import datetime
 
 class Reservations:
 
+    # Constructor
     def __init__(self):
         self.reservation_file = "json_files/reservations.json"   # Path to json file
         self.reservation_data: dict = self.load_reservations()   # Store reservations.json to a dict
-        self.clients = None
-        self.destinations = None
+        self.clients = None         # Reference to all clients
+        self.destinations = None    # Reference to all avaliable destinations
 
+    # Enter reference after init itself for let time to each class
+    # to load data from respectif .json
     def init(self, clients, destination):
         self.clients = clients
         self.destinations = destination
@@ -35,44 +28,52 @@ class Reservations:
 # *************************************************************** #
     
     # Create a reservation
-    def add_reservation(self, client_mail: str, destination: str, date: str, price: str):
+    def add_reservation(self, client_mail: str, destination: str, date: datetime, reduction: str) -> str:
         # check if client exist
         cli = self.clients.find_client(client_mail)
-        if not cli:
+        if (not cli):
             return "\nClient inexistant"
         # print(f"destination: {destination} date: {date} price: {price}")
         
         # Check if destination exist
         destination_obj = self.destinations.find_destination(destination)
-        if not destination_obj:
+        if (not destination_obj):
             return "\nDestination inexistante"
         
-        # Chec the price
-        if destination_obj["price"] != price:
-            return f"\nPrix incorrect. Le prix pour {destination} est de {destination_obj['price']}$"
-        
         # Check the disponibility
-        if destination_obj["disponibility"] != date:
-            return "\nDate non disponible pour cette destination"
+        if (int(destination_obj["disponibility"]) <= 0):
+            return "\nPlace non disponible pour cette destination"
         
+        # Add or not 15% reduction
+        if (reduction != 'y' and reduction != 'Y' and reduction != 'n' and reduction != 'N'):
+            return "\nChoix invalide pour le credit de 15%"
+        
+        reduc: bool = False
+        if (reduction == 'y' or reduction == 'Y'):
+            reduc = True
+
         # Create a new reservation object
         new_reservation = {
             "client": cli["Name"],
             "destination": destination,
-            "price": price,
-            "date": date,
+            "reduction": reduc,
+            "date": date.strftime('%Y-%m-%d'),
         }
         
         # Check if destination exist and add to dict and json file
         if not self.find_reservation(cli["Name"], destination, date):
             self.reservation_data["reservation"].append(new_reservation)
-            self.destinations.remove_destination(destination)
-            self.destinations.save_destination()
+            # Add one place to destination
+            dest = self.destinations.find_destination(destination)
+            if dest:
+                dest["disponibility"] = str(int(dest["disponibility"]) - 1) # -1 place to destination disponibility
+                self.destinations.save_destination()
+
             self.save_reservation()
-            return "\nRéservation créée avec succès"
+            return "\nRéservation cree avec succes"
         
         # Reservation already exist
-        return "\nRéservation déjà existante"
+        return "\nRéservation deja existante"
     
 # *************************************************************** #
 
@@ -92,31 +93,32 @@ class Reservations:
 # *************************************************************** #
 
     # Remove a reservation
-    def remove_reservation(self, client: str, destination: str, date: str, price: str):
+    def remove_reservation(self, client: str, destination: str):
         # Return reservation if he exist
         for reservation in self.reservation_data["reservation"]:
             if (reservation["client"] == client and 
-                reservation["destination"] == destination and 
-                reservation["date"] == date and
-                reservation["price"] == price):
+                reservation["destination"] == destination):
 
-                # Add the cancelled reservation to destinations avaliable
-                self.destinations.add_destination(destination, price, date)
+                # Add one place to destination
+                dest = self.destinations.find_destination(destination)
+                if dest:
+                    dest["disponibility"] = str(int(dest["disponibility"]) + 1)
+                    self.destinations.save_destination()
 
                 # Delete reservation
                 self.reservation_data["reservation"].remove(reservation)
                 self.save_reservation()
-                return True
+                return "\nReservation annuler avec succes"
         
         # Reservation not exist
-        return False
+        return "\nReservation inexistante"
 
 # *************************************************************** #
 
     # Print all reservations
     def show_reservation(self):
         for reservation in self.reservation_data["reservation"]:
-            print(f"\n********** Réservation **********")
+            print(f"\n********** Reservation **********")
             print(f"Client: {reservation['client']}")
             print(f"Destination: {reservation['destination']}")
             print(f"Date: {reservation['date']}")

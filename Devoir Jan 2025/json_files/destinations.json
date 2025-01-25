@@ -3,27 +3,27 @@
         {
             "place": "Puerto Rico",
             "price": "120",
-            "disponibility": "02/02/2025"
+            "disponibility": "4"
         },
         {
             "place": "Cancun",
             "price": "144",
-            "disponibility": "22/04/2025"
+            "disponibility": "3"
         },
         {
             "place": "Montreal",
-            "price": "128",
-            "disponibility": "06/02/2025"
+            "price": "124",
+            "disponibility": "4"
         },
         {
             "place": "Tokyo",
-            "price": "244",
-            "disponibility": "12/09/2026"
+            "price": "242",
+            "disponibility": "3"
         },
         {
             "place": "nowere",
             "price": "44",
-            "disponibility": "55/55/5555"
+            "disponibility": "6"
         }
     ]
 }

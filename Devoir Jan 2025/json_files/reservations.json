@@ -3,20 +3,20 @@
         {
             "client": "Barnet",
             "destination": "Montreal",
-            "price": "134",
-            "date": "02/02/2025"
+            "reduction": "true",
+            "date": "2025-01-21"
         },
         {
             "client": "Steven",
             "destination": "Cancun",
-            "price": "154",
-            "date": "06/04/2025"
+            "reduction": "false",
+            "date": "2025-01-22"
         },
         {
             "client": "Annie",
             "destination": "Montreal",
-            "price": "186",
-            "date": "06/07/2025"
+            "reduction": "true",
+            "date": "2025-01-24"
         }
     ]
 }

@@ -1,17 +1,7 @@
-# 2. Module destinations.py
-
-# Gère les destinations, leurs prix, et leur disponibilité.
-
-# Fonctionnalités :
-
-# - Ajouter une destination.
-# - Mettre à jour le prix ou la disponibilité d'une destination.
-# - Rechercher une destination.
-# - Sauvegarder et charger les destinations depuis un fichier JSON.
-
 import json
 
 class Destinations:
+    # Constructor
     def __init__(self):
         self.destination_file = "json_files/destinations.json"   # Path to json file
         self.destination_data: dict = self.load_destinations()   # Store destination.json to a dict
@@ -25,17 +15,17 @@ class Destinations:
 # *************************************************************** #
     
     # Add a destination.
-    def add_destination(self, place: str, price: str, disponibility: str):
+    def add_destination(self, place: str, price: str, disponibility: str) -> str:
         new_destination = { "place": place, "price": price, "disponibility": disponibility }
         
         # If not reservation exist, add him.
         if not self.find_destination(place):
             self.destination_data["destination"].append(new_destination)
             self.save_destination()
-            return True
+            return "\nDestination ajoute avec succes"
         
         # distination already exist
-        return False
+        return "\nDestination deja existante"
 
 # *************************************************************** #
     
@@ -53,10 +43,10 @@ class Destinations:
                 
                 # Save modifications to json
                 self.save_destination()
-                return True
+                return "\nDestination modifie avec succes"
         
         # Return fals if reservation not found
-        return False
+        return "\nDestination inexistante"
 
 # *************************************************************** #
 
@@ -75,7 +65,7 @@ class Destinations:
     # remove destination if exist
     def remove_destination(self, dest: str):
         dest_to_remove = self.find_destination(dest)
-
+        # Remove destination if not None
         if (dest_to_remove):
             self.destination_data["destination"].remove(dest_to_remove)
             self.save_destination()
